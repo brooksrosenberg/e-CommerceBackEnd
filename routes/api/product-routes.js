@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
-// The `/api/products` endpoint
+
 
 // get all products
 router.get('/', async (req, res) => {
@@ -20,11 +20,9 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-  // find all products
-  // be sure to include its associated Category and Tag data
 });
 
-// get one product
+// get one product by id
 router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
@@ -47,17 +45,9 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// find a single product by its `id`
-// be sure to include its associated Category and Tag data
+// create a new product
 router.post('/', (req, res) => {
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
+  
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -122,7 +112,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-
+// delete one product by its `id` value
 router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy(
@@ -139,7 +129,7 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-  // delete one product by its `id` value
+  
 });
 
 module.exports = router;
